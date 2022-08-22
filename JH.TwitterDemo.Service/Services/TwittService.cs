@@ -24,19 +24,14 @@ namespace JH.TwitterDemo.Service.Services
         }
         public async Task AddTwittAsync(TwittInfo twitt)
         {
-            try
-            {
-                var twittEntity = this._mapper.Map<Twitt>(twitt);
-                this._twittRepository.Add(twittEntity);
+            var twittEntity = this._mapper.Map<Twitt>(twitt);
+            this._twittRepository.Add(twittEntity);
 
-                foreach(var hash in twittEntity.HashTags)
-                    this._hashTagRepository.Add(hash);
+            foreach (var hash in twittEntity.HashTags)
+                this._hashTagRepository.Add(hash);
 
-                await this._unitOfWork.CommitChangesAsync();
-            }catch(Exception ex)
-            {
-                int i = 0;
-            }
+            await this._unitOfWork.CommitChangesAsync();
+
         }
     }
 }
