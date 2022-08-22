@@ -6,9 +6,7 @@ Setup
 Open file appsettings.json and edit the following keys:
 
  "ApiKeys": {
-    "Twitter": {     
-      "ApiKey": "",
-      "ApiSecret": "",
+    "Twitter": {          
       "Token": ""
     }
     
