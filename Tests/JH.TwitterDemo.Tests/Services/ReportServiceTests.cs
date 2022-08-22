@@ -1,13 +1,10 @@
 ﻿using JH.TwitterDemo.Data.Dtos;
-using JH.TwitterDemo.Data.Repositories;
 using JH.TwitterDemo.Data.Repositories.Interfaces;
 using JH.TwitterDemo.Service.Services;
 using JH.TwitterDemo.Service.Services.Interfaces;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JH.TwitterDemo.Tests.Services
@@ -18,6 +15,7 @@ namespace JH.TwitterDemo.Tests.Services
         private IHashTagRepository hashTagRepository;
         private ITwittRepository twittRepository;
         private IReportService reportService;
+
         [SetUp]
         public void Setup()
         {
@@ -25,6 +23,7 @@ namespace JH.TwitterDemo.Tests.Services
             twittRepository = Mock.Of<ITwittRepository>();
             reportService = new ReportService(hashTagRepository, twittRepository);
         }
+
         [Test]
         public async Task When_HashTagReport_Report_Returned()
         {

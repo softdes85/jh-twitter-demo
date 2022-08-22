@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using JH.TwitterDemo.Data.Dtos;
 using JH.TwitterDemo.Data.Entities;
-using JH.TwitterDemo.Data.Repositories;
 using JH.TwitterDemo.Data.Repositories.Interfaces;
 using JH.TwitterDemo.Data.UnitOfWork;
 using JH.TwitterDemo.Service.Models.Twitter;
@@ -9,9 +7,7 @@ using JH.TwitterDemo.Service.Services;
 using JH.TwitterDemo.Service.Services.Interfaces;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JH.TwitterDemo.Tests.Services
@@ -19,10 +15,10 @@ namespace JH.TwitterDemo.Tests.Services
     [TestFixture()]
     public class TwitterServiceTEsts
     {
-        private  ITwittRepository _twittRepository;
-        private  IHashTagRepository _hashTagRepository;
-        private  IUnitOfWork _unitOfWork;
-        private  IMapper _mapper;
+        private ITwittRepository _twittRepository;
+        private IHashTagRepository _hashTagRepository;
+        private IUnitOfWork _unitOfWork;
+        private IMapper _mapper;
         private ITwittService _twittService;
 
         [SetUp]
@@ -34,6 +30,7 @@ namespace JH.TwitterDemo.Tests.Services
             _mapper = Mock.Of<IMapper>();
             this._twittService = new TwittService(_unitOfWork, _twittRepository, _hashTagRepository, _mapper);
         }
+
         [Test]
         public async Task When_AddTwittAsync_EntityAdded()
         {
@@ -83,9 +80,8 @@ namespace JH.TwitterDemo.Tests.Services
             Mock.Get(_unitOfWork)
                 .Setup(s => s.CommitChangesAsync());
 
-
             // Act
-           await _twittService.AddTwittAsync(twittINfo);
+            await _twittService.AddTwittAsync(twittINfo);
 
             // Assert
             Mock.VerifyAll();

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace JH.TwitterDemo.Data.Dtos
+﻿namespace JH.TwitterDemo.Data.Dtos
 {
     public class HashTagCount
     {

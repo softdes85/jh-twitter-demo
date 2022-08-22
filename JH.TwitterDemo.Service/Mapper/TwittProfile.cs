@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using JH.TwitterDemo.Data.Entities;
 using JH.TwitterDemo.Service.Models.Twitter;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JH.TwitterDemo.Service.Mapper
 {

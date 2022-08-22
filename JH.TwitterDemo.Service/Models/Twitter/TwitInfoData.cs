@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace JH.TwitterDemo.Service.Models.Twitter
+﻿namespace JH.TwitterDemo.Service.Models.Twitter
 {
     public class TwitInfoData
     {

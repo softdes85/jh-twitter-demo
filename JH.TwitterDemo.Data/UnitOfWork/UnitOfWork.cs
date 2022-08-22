@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JH.TwitterDemo.Data.UnitOfWork
@@ -10,10 +7,12 @@ namespace JH.TwitterDemo.Data.UnitOfWork
         where TContext : DbContext
     {
         private readonly TContext _context;
+
         public UnitOfWork(TContext context)
         {
             this._context = context;
         }
+
         public async Task CommitChangesAsync()
         {
             await _context.SaveChangesAsync();

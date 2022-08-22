@@ -10,6 +10,7 @@ namespace JH.TwitterDemo.Api.Kernel
     {
         private readonly RequestDelegate next;
         private ILogger<ApiExceptionMIddleware> _logger;
+
         public ApiExceptionMIddleware(ILogger<ApiExceptionMIddleware> logger)
         {
             this._logger = logger;
@@ -20,7 +21,6 @@ namespace JH.TwitterDemo.Api.Kernel
             try
             {
                 await next(context);
-
             }
             catch (Exception ex)
             {

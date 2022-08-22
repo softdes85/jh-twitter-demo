@@ -1,8 +1,6 @@
 ﻿using JH.TwitterDemo.Service.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,12 +12,14 @@ namespace JH.TwitterDemo.Service.Services
         private readonly ITwitterQueueManager _queue;
         private readonly ILogger _logger;
 
-        public TwitterConsumerService(ILogger<TwitterConsumerService> logger, ITwittClient twittClient,ITwitterQueueManager queue)
+        public TwitterConsumerService(ILogger<TwitterConsumerService> logger, ITwittClient twittClient, ITwitterQueueManager queue)
         {
             this._twittClient = twittClient;
             this._queue = queue;
             this._logger = logger;
         }
+
+        /// <inheritdoc/>
         public async Task ConsumeAsync(CancellationToken cancellationToken)
         {
             // TODO: instead of the try catch inside the while this code needs to be updated to use Polly
@@ -32,7 +32,8 @@ namespace JH.TwitterDemo.Service.Services
                     {
                         _queue.EnqueueTwitt(twitt);
                     }
-                }catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     this._logger.LogError(ex, "Error receiving Twitts From Stream");
                 }

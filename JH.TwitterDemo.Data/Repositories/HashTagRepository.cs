@@ -1,5 +1,4 @@
-﻿
-using JH.TwitterDemo.Data.Context;
+﻿using JH.TwitterDemo.Data.Context;
 using JH.TwitterDemo.Data.Dtos;
 using JH.TwitterDemo.Data.Entities;
 using JH.TwitterDemo.Data.Repositories.Interfaces;
@@ -12,7 +11,9 @@ namespace JH.TwitterDemo.Data.Repositories
 {
     public class HashTagRepository : BaseRepository<HashTag, TwitterDBContext>, IHashTagRepository
     {
-        public HashTagRepository(TwitterDBContext context) : base(context) { }
+        public HashTagRepository(TwitterDBContext context) : base(context)
+        {
+        }
 
         public async Task<List<HashTagCount>> TopNAsync(int topN)
         {

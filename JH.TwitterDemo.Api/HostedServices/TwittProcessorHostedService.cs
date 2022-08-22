@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,7 +10,7 @@ namespace JH.TwitterDemo.Api.HostedServices
     public class TwittProcessorHostedService : BackgroundService
     {
         private int executionCount = 0;
-        private readonly ILogger<TwittProcessorHostedService> _logger;       
+        private readonly ILogger<TwittProcessorHostedService> _logger;
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ITwitterQueueManager _queue;
         private Timer? _timer = null;
@@ -48,6 +47,5 @@ namespace JH.TwitterDemo.Api.HostedServices
 
             await base.StopAsync(stoppingToken);
         }
-
     }
 }

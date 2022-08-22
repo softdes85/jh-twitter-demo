@@ -1,6 +1,4 @@
-﻿
-
-using JH.TwitterDemo.Data.Entities;
+﻿using JH.TwitterDemo.Data.Entities;
 
 namespace JH.TwitterDemo.Data.Repositories.Interfaces
 {

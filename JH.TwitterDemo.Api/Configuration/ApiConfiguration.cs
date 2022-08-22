@@ -29,7 +29,6 @@ namespace JH.TwitterDemo.Api.Configuration
             // registering hosted services
             services.AddHostedService<TwittProcessorHostedService>();
             services.AddHostedService<TwittConsumerHostedService>();
-            
 
             // registering http clients
             services.AddHttpClient<ITwittClient, TwittClient>();
@@ -42,13 +41,10 @@ namespace JH.TwitterDemo.Api.Configuration
             services.AddScoped<ITwittService, TwittService>();
             services.AddScoped<IReportService, ReportService>();
 
-
-
             // registering repositories
             services.AddScoped<ITwittRepository, TwittRepository>();
             services.AddScoped<IHashTagRepository, HashTagRepository>();
             services.AddScoped<IMentionRepository, MentionRepository>();
-
 
             return services;
         }

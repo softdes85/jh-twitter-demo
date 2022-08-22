@@ -1,10 +1,7 @@
 ﻿using JH.TwitterDemo.Data.Repositories.Interfaces;
 using JH.TwitterDemo.Service.Models.Report;
 using JH.TwitterDemo.Service.Services.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JH.TwitterDemo.Service.Services
@@ -13,11 +10,14 @@ namespace JH.TwitterDemo.Service.Services
     {
         private readonly IHashTagRepository _hashTagRepository;
         private readonly ITwittRepository _twittRepository;
+
         public ReportService(IHashTagRepository hasTagRepository, ITwittRepository twittRepository)
         {
             this._hashTagRepository = hasTagRepository;
             this._twittRepository = twittRepository;
         }
+
+        /// <inheritdoc/>
         public async Task<HashTagReport> HashTagReport(int topN)
         {
             var result = new HashTagReport();

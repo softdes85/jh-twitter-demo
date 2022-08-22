@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace JH.TwitterDemo.Data.Entities
 {
     public class Twitt : IEntity
-    {       
+    {
         public int Id { get; set; }
         public string TwitterId { get; set; }
         public string Text { get; set; }

@@ -1,13 +1,15 @@
 ﻿using JH.TwitterDemo.Service.Models.Twitter;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JH.TwitterDemo.Service.Services.Interfaces
 {
     public interface ITwittService
     {
-        Task AddTwittAsync(TwittInfo twitt);        
+        /// <summary>
+        /// Add Twit Information to system of records
+        /// </summary>
+        /// <param name="twitt">The twitt info</param>
+        /// <returns>Task</returns>
+        Task AddTwittAsync(TwittInfo twitt);
     }
 }

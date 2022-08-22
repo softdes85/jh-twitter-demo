@@ -1,5 +1,4 @@
-﻿
-using JH.TwitterDemo.Data.Entities;
+﻿using JH.TwitterDemo.Data.Entities;
 using JH.TwitterDemo.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -12,7 +11,8 @@ namespace JH.TwitterDemo.Data.Repositories
         where TContext : DbContext
     {
         protected readonly TContext context;
-        object lockObject = new object();
+        private object lockObject = new object();
+
         public BaseRepository(TContext context)
         {
             this.context = context;
@@ -20,10 +20,11 @@ namespace JH.TwitterDemo.Data.Repositories
 
         public void Add(TEntity entity)
         {
-            context.Add(entity);        }
+            context.Add(entity);
+        }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
-        {            
+        {
             return await context.Set<TEntity>().ToListAsync();
         }
 
@@ -31,6 +32,5 @@ namespace JH.TwitterDemo.Data.Repositories
         {
             return await context.Set<TEntity>().FindAsync(id);
         }
-
     }
 }

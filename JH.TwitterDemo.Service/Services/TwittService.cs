@@ -4,7 +4,6 @@ using JH.TwitterDemo.Data.Repositories.Interfaces;
 using JH.TwitterDemo.Data.UnitOfWork;
 using JH.TwitterDemo.Service.Models.Twitter;
 using JH.TwitterDemo.Service.Services.Interfaces;
-using System;
 using System.Threading.Tasks;
 
 namespace JH.TwitterDemo.Service.Services
@@ -15,6 +14,7 @@ namespace JH.TwitterDemo.Service.Services
         private readonly IHashTagRepository _hashTagRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+
         public TwittService(IUnitOfWork unitOfWork, ITwittRepository twittRepository, IHashTagRepository hashTagRepository, IMapper mapper)
         {
             this._twittRepository = twittRepository;
@@ -22,6 +22,8 @@ namespace JH.TwitterDemo.Service.Services
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
         }
+
+        /// <inheritdoc/>
         public async Task AddTwittAsync(TwittInfo twitt)
         {
             var twittEntity = this._mapper.Map<Twitt>(twitt);
@@ -31,7 +33,6 @@ namespace JH.TwitterDemo.Service.Services
                 this._hashTagRepository.Add(hash);
 
             await this._unitOfWork.CommitChangesAsync();
-
         }
     }
 }
