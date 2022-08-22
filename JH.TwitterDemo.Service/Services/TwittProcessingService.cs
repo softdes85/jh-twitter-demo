@@ -1,5 +1,6 @@
 ﻿using JH.TwitterDemo.Service.Models.Twitter;
 using JH.TwitterDemo.Service.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace JH.TwitterDemo.Service.Services
     {
         private readonly ITwitterQueueManager _queue;
         private readonly ITwittService _service;
-        public TwittProcessingService(ITwitterQueueManager queue, ITwittService twittService)
+        private readonly ILogger _logger;
+        public TwittProcessingService(ILogger<TwittProcessingService> logger, ITwitterQueueManager queue, ITwittService twittService)
         {
             this._queue = queue;
             this._service = twittService;
+            this._logger = logger;
         }
 
         private async Task ProcessTwittItemAsync(TwittInfo twitterItem)
@@ -28,14 +31,21 @@ namespace JH.TwitterDemo.Service.Services
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                if (this._queue.Count() == 0)
+                // instead of the try catch inside the while this code needs to be updated to use Polly
+                try
                 {
-                    await Task.Delay(500, cancellationToken);
-                    continue;
+                    if (this._queue.Count() == 0)
+                    {
+                        await Task.Delay(500, cancellationToken);
+                        continue;
+                    }
+                    var twitt = _queue.DeQueueTwitt();
+                    if (twitt != null)
+                        await this.ProcessTwittItemAsync(twitt);
+                }catch (Exception ex)
+                {
+                    this._logger.LogError(ex, "Error Processing the Twitts Queue");
                 }
-                var twitt = _queue.DeQueueTwitt();   
-                if(twitt != null)
-                    await  this.ProcessTwittItemAsync(twitt);
             }
         }
     }

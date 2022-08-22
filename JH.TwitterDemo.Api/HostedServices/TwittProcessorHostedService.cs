@@ -36,15 +36,9 @@ namespace JH.TwitterDemo.Api.HostedServices
 
         private async Task DoWork(CancellationToken stoppingToken)
         {
-            try
-            {
-                var scope = this._scopeFactory.CreateScope();
-                var processingService = scope.ServiceProvider.GetService<ITwittProcessingService>();
-                await processingService.ProcessTwittsAsync(stoppingToken);
-            }catch (Exception ex)
-            {
-                int i = 0;
-            }
+            var scope = this._scopeFactory.CreateScope();
+            var processingService = scope.ServiceProvider.GetService<ITwittProcessingService>();
+            await processingService.ProcessTwittsAsync(stoppingToken);
         }
 
         public override async Task StopAsync(CancellationToken stoppingToken)

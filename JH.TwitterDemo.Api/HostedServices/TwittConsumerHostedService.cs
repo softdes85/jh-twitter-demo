@@ -29,18 +29,13 @@ namespace JH.TwitterDemo.Api.HostedServices
 
             await DoWork(stoppingToken);
         }
-        
+
         private async Task DoWork(CancellationToken stoppingToken)
         {
-            try
-            {
-                var scope = this._scopeFactory.CreateScope();
-                var service = scope.ServiceProvider.GetService<ITwitterConsumerService>();
-                await service.ConsumeAsync(stoppingToken);
-            }catch(Exception ex)
-            {
-                int i = 0;
-            }
+
+            var scope = this._scopeFactory.CreateScope();
+            var service = scope.ServiceProvider.GetService<ITwitterConsumerService>();
+            await service.ConsumeAsync(stoppingToken);
         }
 
         public override async Task StopAsync(CancellationToken stoppingToken)
