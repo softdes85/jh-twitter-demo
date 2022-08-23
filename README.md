@@ -3,11 +3,10 @@ Demo Twitter Stream API
 
 Setup
 
-Open file appsettings.json and edit the following keys:
+Open file appsettings.json and edit the following key:
 
  "ApiKeys": {
     "Twitter": {          
-      "Token": ""
+      "Token": "{Add your own JWT}"
     }
-    
-ApiKey and ApiSecret aren't required, only Token value should be provided.
+
