@@ -1,4 +1,6 @@
-﻿using JH.TwitterDemo.Api.Controllers;
+﻿using AutoMapper;
+using JH.TwitterDemo.Api.Controllers;
+using JH.TwitterDemo.Api.Models;
 using JH.TwitterDemo.Service.Models.Report;
 using JH.TwitterDemo.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +15,16 @@ namespace JH.TwitterDemo.Tests.ControllerTests
     public class ReportControllerTests
     {
         private Mock<IReportService> _mockReportService;
-        private HashTagReport hashTagReport;
+        private HashTagReport _hashTagReport;
+        private IMapper _mapper;
 
         [SetUp]
         public void SetUp()
         {
 
             _mockReportService = new Mock<IReportService>();
-
-            hashTagReport = new HashTagReport()
+            _mapper = Mock.Of<IMapper>();
+            _hashTagReport = new HashTagReport()
             {
                 TotalTwitts = 100,
                 HashTags = new List<HashTagRecord>
@@ -39,14 +42,21 @@ namespace JH.TwitterDemo.Tests.ControllerTests
         [Test]
         public async Task GetTopHashTags_ReturnsTopHashTags()
         {
-            _mockReportService.Setup(m => m.HashTagReport(10)).ReturnsAsync(hashTagReport);
+            // Arrange
+            Mock.Get(_mapper)
+               .Setup(s => s.Map<HashTagReportVM>(It.IsAny<HashTagReport>()))
+               .Returns(new HashTagReportVM() { TotalTwitts = _hashTagReport.TotalTwitts });
 
-            Api.Controllers.ReportController _mockReportController = new ReportController(_mockReportService.Object);
+            _mockReportService.Setup(m => m.HashTagReport(10)).ReturnsAsync(_hashTagReport);
 
+            ReportController _mockReportController = new ReportController(_mockReportService.Object, _mapper);
+
+            // Act
             var result = await _mockReportController.GetTopHashTags(10) as ObjectResult;
 
+            // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(hashTagReport.TotalTwitts, ((HashTagReport)result.Value).TotalTwitts);
+            Assert.AreEqual(_hashTagReport.TotalTwitts, ((HashTagReportVM)result.Value).TotalTwitts);
         }
 
     }

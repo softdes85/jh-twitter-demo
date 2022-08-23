@@ -5,7 +5,7 @@ using JH.TwitterDemo.Service.Models.Twitter;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace JH.TwitterDemo.Tests.AutoMapper
+namespace JH.TwitterDemo.Tests.AutoMapper.Service
 {
     [TestFixture()]
     public class TwittProfileTests
@@ -34,14 +34,14 @@ namespace JH.TwitterDemo.Tests.AutoMapper
                     Text = twittText,
                     Entities = new TwitInfoEntity()
                     {
-                        HashTags = new List<Service.Models.Twitter.HashTag>()
+                        HashTags = new List<TwitterDemo.Service.Models.Twitter.HashTag>()
                         {
-                            new Service.Models.Twitter.HashTag()
+                            new TwitterDemo.Service.Models.Twitter.HashTag()
                             {
                                 Tag = tagText
                             }
                         },
-                        Mentions = new List<Service.Models.Twitter.Mention>(),
+                        Mentions = new List<TwitterDemo.Service.Models.Twitter.Mention>(),
                     }
                 }
             };

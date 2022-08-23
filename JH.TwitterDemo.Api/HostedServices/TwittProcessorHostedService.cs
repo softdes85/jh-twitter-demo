@@ -8,21 +8,16 @@ using System.Threading.Tasks;
 namespace JH.TwitterDemo.Api.HostedServices
 {
     public class TwittProcessorHostedService : BackgroundService
-    {
-        private int executionCount = 0;
+    {        
         private readonly ILogger<TwittProcessorHostedService> _logger;
-        private readonly IServiceScopeFactory _scopeFactory;
-        private readonly ITwitterQueueManager _queue;
-        private Timer? _timer = null;
+        private readonly IServiceScopeFactory _scopeFactory;                
 
         public TwittProcessorHostedService(
             ILogger<TwittProcessorHostedService> logger,
-            ITwitterQueueManager queue,
             IServiceScopeFactory scopeFactory)
         {
             this._logger = logger;
             this._scopeFactory = scopeFactory;
-            this._queue = queue;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
