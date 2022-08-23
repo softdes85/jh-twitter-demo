@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace JH.TwitterDemo.Infrastructure.TwitterClient.Services
@@ -20,9 +21,10 @@ namespace JH.TwitterDemo.Infrastructure.TwitterClient.Services
             this.options = options;
         }
 
-        public async IAsyncEnumerable<string> GetTwittsAsync(CancellationToken cancellationToken)
+        public async IAsyncEnumerable<string> GetTwittsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {options.Value.Token}");
+
             using var stream = await this._httpClient.GetStreamAsync($"{options.Value.StreamUrl}?tweet.fields=entities");
             using var streamReader = new StreamReader(stream);
             while (!streamReader.EndOfStream || cancellationToken.IsCancellationRequested)

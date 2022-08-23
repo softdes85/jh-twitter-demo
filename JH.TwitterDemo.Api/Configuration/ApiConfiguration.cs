@@ -10,6 +10,13 @@ using JH.TwitterDemo.Service.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.Extensions.Http;
+using System;
+using System.Net.Http;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace JH.TwitterDemo.Api.Configuration
 {
@@ -18,7 +25,7 @@ namespace JH.TwitterDemo.Api.Configuration
         public static IServiceCollection SetApiConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             // automapper
-            services.AddAutoMapper((typeof(TwittService).Assembly));
+            services.AddAutoMapper(Assembly.GetExecutingAssembly(), (typeof(TwittService).Assembly));
 
             // setting up db
             services.AddDbContext<TwitterDBContext>(opt => opt.UseInMemoryDatabase("TwitterDB"));
@@ -31,7 +38,8 @@ namespace JH.TwitterDemo.Api.Configuration
             services.AddHostedService<TwittConsumerHostedService>();
 
             // registering http clients
-            services.AddHttpClient<ITwittClient, TwittClient>();
+            services.AddHttpClient<ITwittClient, TwittClient>()
+                .AddPolicyHandler(GetRetryPolicy());
 
             // registering services
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork<TwitterDBContext>));
@@ -47,6 +55,18 @@ namespace JH.TwitterDemo.Api.Configuration
             services.AddScoped<IMentionRepository, MentionRepository>();
 
             return services;
+        }
+
+        public static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            var retryCount = 5;
+            return HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+               .WaitAndRetryAsync(
+                    retryCount,
+                    retryAttempt => TimeSpan.FromSeconds(Math.Pow(3, retryAttempt))
+                    );
         }
     }
 }

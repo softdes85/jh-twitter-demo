@@ -1,6 +1,10 @@
 ﻿using JH.TwitterDemo.Service.Services.Interfaces;
 using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.Retry;
+using Polly.Timeout;
 using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,21 +26,9 @@ namespace JH.TwitterDemo.Service.Services
         /// <inheritdoc/>
         public async Task ConsumeAsync(CancellationToken cancellationToken)
         {
-            // TODO: instead of the try catch inside the while this code needs to be updated to use Polly
-
-            while (!cancellationToken.IsCancellationRequested)
+            await foreach (var twitt in this._twittClient.GetTwittsAsync(cancellationToken).WithCancellation(cancellationToken))
             {
-                try
-                {
-                    await foreach (var twitt in this._twittClient.GetTwittsAsync(cancellationToken))
-                    {
-                        _queue.EnqueueTwitt(twitt);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    this._logger.LogError(ex, "Error receiving Twitts From Stream");
-                }
+                _queue.EnqueueTwitt(twitt);
             }
         }
     }
